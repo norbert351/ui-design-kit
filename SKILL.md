@@ -1,212 +1,306 @@
 ---
 name: ui-design-kit
-description: "Use when designing UIs, landings, dashboards, or product copy. Loads Zubbycrypt's free design kit — fonts, colors, icons, stock assets, motion, components, writing tools, and practice drills — so builds avoid AI-generic aesthetics."
-version: 1.0.0
+description: "One-prompt editorial landing page system. Load this skill, paste the bootstrap prompt, and get a complete Next.js + Tailwind landing page with locked typography, color slots, composition rules, anti-slop checks, and production gotchas covered."
+version: 2.0.0
 author: Hermes Agent + Zubbycrypt
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
   hermes:
-    tags: [ui, design, frontend, fonts, icons, motion, writing, assets]
+    tags: [ui, design, frontend, landing-page, editorial, tailwind, nextjs]
     related_skills: [frontend-design, imagegen-frontend-web, humanizer]
 ---
 
-# UI Design Kit (Zubbycrypt)
+# UI Design Kit — Editorial Landing Page System
 
-Personal design kit on this Hermes profile. Curated free professional resources so every UI build starts with the same high-quality stack — not AI-generic defaults.
+A single-prompt system for building marketing sites that feel **designed** — not AI-generated, not template-sourced.
 
-**Source list:** Moh4696/300-free-resource-websites (safe link directory; no install). Full catalog: `references/resource-catalog.md`.
+## Bootstrap Prompt (paste into any new chat)
+
+```
+I'm building a landing page in Next.js 15 App Router + Tailwind v4 + TypeScript.
+Use the UI Design Kit system:
+- Dark theme by default with bg/surface/text slot system
+- One accent color (precious — used 2-3x max), one secondary accent (emotional moment, rarer)
+- Fonts: Syne 800 headlines + Space Grotesk 400 body + mono uppercase eyebrows
+- Section wrapper is max-w-7xl mx-auto px-4/6
+- Buttons shrink on hover (scale-95) and flip to accent — never grow
+- No pure black or white. No overlays on images. No emojis. No exclamation marks
+- Editorial > corporate. One idea per section
+- Stroke text uses inline style (not Tailwind). Glow hover uses a React component (not CSS)
+- OG image via next/og with fonts passed. Resend for email (lazy init inside handler)
+- Strip any AI co-author trailers before pushing
+```
 
 ## When to Use
 
-- Designing or redesigning any landing, dashboard, modal, marketing page
-- Choosing fonts, palette, icons, stock photos, illustrations, motion
-- Writing product/landing copy that shouldn't sound AI-dense
-- Starting a new Next.js + Tailwind UI and needing the default stack
-- User says "design kit", "use our UI resources", or "professional UI"
+- Starting a new marketing site or landing page
+- Redesigning an existing page that looks generic
+- User says "make it look premium / editorial / designed"
+- Any project where you'd default to Inter + purple gradients
 
-**Don't use for:** backend-only work, pure API design, non-UI infrastructure.
+**Don't use for:** dashboards (use `frontend-design`), backend-only, pure API UI.
 
-## Default Stack (this user)
+## Default Stack
 
-| Layer | Default |
-|---|---|
-| Framework | Next.js App Router + TypeScript |
-| Styling | Tailwind CSS v4 + CSS design tokens |
-| Motion | Framer Motion **or** CSS + IntersectionObserver |
-| Icons | Lucide first; Phosphor when multiple weights needed |
-| Charts | Recharts (dark-friendly gradients) |
-| Images | `next/image` + real stock (Unsplash/Pexels) |
-| Deploy | Vercel Hobby |
+| Layer | Choice |
+|-------|--------|
+| Framework | Next.js 15 App Router + TypeScript |
+| Styling | Tailwind CSS v4 + CSS variables |
+| Fonts | Syne (display) + Space Grotesk (body) + JetBrains Mono (eyebrows/data) |
+| Motion | Framer Motion + CSS transitions |
+| Icons | Lucide |
+| Images | next/image + Unsplash/Pexels |
+| Email | Resend (lazy init inside handler) |
+| OG | next/og + font files in `public/fonts/` |
+| Deploy | Vercel |
 
-## Design Kit Workflow
+## Core Color Slots
 
-Follow in order. Done when each step's criterion is met.
+| Slot | Dark default | Role |
+|------|-------------|------|
+| bg | `#0a0a0c` | Page background |
+| surface | `#121218` | Cards, inputs, sections |
+| surface-border | `rgba(255,255,255,0.06)` | Section dividers, card outlines |
+| text-1 | `#f4f4f5` | Headlines |
+| text-2 | `#a1a1aa` | Body |
+| text-3 | `#71717a` | Eyebrow labels, captions |
+| accent-primary | *project-specific* | CTAs, hover, emphasis (used 2-3x max) |
+| accent-secondary | *project-specific* | Emotional accent — appears once, maybe twice per page |
 
-### 1. Lock aesthetic direction
-
-- Write one sentence: tone + audience + one memorable trait
-  Example: *"Dark luxury DeFi dashboard, orange accent, editorial spacing."*
-- Pick extreme intentionally: luxury / industrial / editorial / soft SaaS / crypto-terminal
-- **Done when:** one sentence exists and palette direction is named (not "modern purple")
-
-### 2. Typography
-
-- Prefer **Fontshare** for distinctive free commercial fonts over Inter-only
-- Pair: 1 display (H1 only) + 1 body
-- Load via `next/font` (Google or local)
-- Tools: [Fontshare](https://www.fontshare.com/), [Typewolf](https://www.typewolf.com/), [Google Fonts](https://fonts.google.com/), [Wordmark.it](https://wordmark.it/)
-- **Avoid:** Inter + Roboto + Arial as the whole system
-- **Done when:** display + body fonts named and applied in layout
-
-### 3. Color tokens
-
+### Palette rules
 - 1 primary, 1 secondary, 1 accent (sparing), full neutral scale
 - Build with [Coolors](https://coolors.co/) → preview on [Realtime Colors](https://www.realtimecolors.com/)
 - Check contrast: [WebAIM](https://webaim.org/resources/contrastchecker/) (AA minimum)
-- Gradients: [cssgradient.io](https://cssgradient.io/) — low-chroma, palette-matched only
+- **No pure black** (`#000000`) or pure white (`#ffffff`) anywhere
 - **Banned:** purple→blue AI mesh, rainbow orbs, neon glow spam
-- Ship CSS variables:
+
+### CSS variables to ship
 
 ```css
 :root {
   --bg: #0a0a0c;
   --surface: #121218;
-  --border: rgba(255,255,255,0.08);
-  --ink: #f4f4f5;
-  --muted: #a1a1aa;
-  --accent: /* brand — lock once */;
-  --emerald: #22c55e;
-  --rose: #f43f5e;
-  --amber: #f59e0b;
-  --radius: 10px;
+  --surface-border: rgba(255, 255, 255, 0.06);
+  --text-1: #f4f4f5;
+  --text-2: #a1a1aa;
+  --text-3: #71717a;
+  --accent: /* lock once */;
+  --accent-secondary: /* emotional accent */;
+  --radius: 6px;
 }
 ```
 
-- **Done when:** tokens in CSS/Tailwind theme; no hardcoded random hex in new components
+## Typography System
 
-### 4. Icons
+| Element | Font | Weight | Case |
+|---------|------|--------|------|
+| H1 (hero) | Syne | 800 | Normal |
+| Section H2 | Syne | 800 | Normal |
+| H3+ | Syne | 700 | Normal |
+| Body | Space Grotesk | 400 | Normal |
+| Small / caption | Space Grotesk | 400 | Normal |
+| Eyebrow / label | JetBrains Mono | 500 | Uppercase |
+| Data / stats | JetBrains Mono | 400 | Normal |
 
-- **Lucide** default: https://lucide.dev/
-- **Phosphor** for multi-weight sets: https://phosphoricons.com/
-- **Heroicons** OK for Tailwind-adjacent: https://heroicons.com/
-- **Simple Icons** for brand marks: https://simpleicons.org/
-- Logo pattern: small SVG icon **beside** brand text `[icon] BrandName` — never wordmark-only
-- **Done when:** one icon family chosen; brand mark is icon + text
+- Load via `next/font` (Google Fonts)
+- **Fontshare** alternative: Cabinet Grotesk (display) + Satoshi (body) — same energy
+- **Avoid:** Inter + Roboto + Arial as the whole system
 
-### 5. Real imagery (no AI blobs)
+## Composition & Section System
 
-| Need | Source |
-|---|---|
-| Hero / lifestyle photos | [Unsplash](https://unsplash.com/), [Pexels](https://www.pexels.com/) |
-| Stock video | [Coverr](https://coverr.co/), [Mixkit](https://mixkit.co/) |
-| Recolorable illustrations | [unDraw](https://undraw.co/), [Storyset](https://storyset.com/) |
-| Empty-state characters | [Open Doodles](https://www.opendoodles.com/), [Humaaans](https://www.humaaans.com/), [Open Peeps](https://www.openpeeps.com/) |
-| Diverse people stock | [Nappy](https://www.nappy.co/) |
-| Compress before ship | [Squoosh](https://squoosh.app/), [TinyPNG](https://tinypng.com/) |
-| Quick edit / bg remove | [Photopea](https://www.photopea.com/), [remove.bg](https://www.remove.bg/) |
+### Hero Composition Bias
+**The left-text / right-image hero is the most overused AI pattern.** Default to one of these instead:
 
-- Prefer full-bleed photo or strong product shot over floating orbs
-- **Done when:** every major visual is a real asset URL or local file, not a placeholder blob
+- Centered statement over full-bleed image (text in lower 40%)
+- Bottom-left text over background image
+- Bottom-right text over background image
+- Stacked center (label / headline / sub / CTA all centered)
+- Image-as-canvas with text overlaid
+- Right-text / left-image (inverted classic)
+- Mini Minimalist (tiny logo + short statement + thin CTA, mostly space)
 
-### 6. Motion
+### Background Modes (vary across sections)
+Pick 1 per section, never repeat the same mode 3+ times in a row:
+1. Solid surface + inline asset
+2. Full-bleed image with tonal overlay
+3. Editorial side-image (50/50 or 60/40 split)
+4. Flat color block + accent detail
+5. Cinematic tonal gradient (palette-matched, low-chroma)
+6. Duotone treated image
+7. Soft radial vignette + product crop
+8. Micro-noise gradient over solid
 
-- High-impact moments only: page load, scroll reveal, hover, modal enter
-- Easing: `cubic-bezier(0.16, 1, 0.3, 1)` ([easings.net](https://easings.net/))
-- CSS animation recipes: [Animista](https://animista.net/)
-- Framer Motion pattern: `initial` / `whileInView` / `viewport={{ once: true }}`
-- Depth textures: [fffuel](https://www.fffuel.co/), [Hero Patterns](https://heropatterns.com/), [Shape Divider](https://www.shapedivider.app/)
-- **Done when:** one orchestrated reveal system; no animation spam on every element
+### Section Rhythm
+- Vary density: some sections large + art-directed, some mini + minimalist
+- Vary background mode across sections
+- Keep spacing generous and even between sections
+- Never repeat the same composition anchor 3 sections in a row
 
-### 7. Components & layout
+### CTA Variation (not always primary pill)
+- Classic primary pill
+- Outline / ghost
+- Underlined inline link with arrow
+- Oversized headline + tiny CTA hint
+- CTA as caption under a strong visual
 
-- Inspiration only: [UIVerse](https://uiverse.io/) — restyle heavily, never ship stock purple
-- Design first in [Figma](https://www.figma.com/) when possible
-- Layout flavors: bento, editorial split, full-bleed image, sticky nav — vary anchors
-- Every panel ships with: header + subtitle, hover/focus/active, loading, empty state
-- Optional primitives: shadcn/Radix for a11y **structure only** — own the visual system
-- **Done when:** UI stands alone visually before API wiring
+## Component Laws
 
-### 8. Writing / product copy
+### Button Rule
+- Shrink on hover: `transform: scale(0.95)` — never grow
+- Flip to accent color on hover
+- Transition: `transition-all duration-300`
 
-- Clarity: [Hemingway](https://hemingwayapp.com/)
-- Grammar: [LanguageTool](https://languagetool.org/)
-- Word choice: [Power Thesaurus](https://www.powerthesaurus.org/)
-- Then humanize — load `humanizer` skill if copy still feels AI
-- Avoid: unleash / elevate / seamless / next-gen / revolutionize
-- Prefer specific product language (what it does + for whom)
-- **Done when:** headlines are specific; body passes Hemingway denseness check
+### Stroke Text
+- MUST use **inline style** with `WebkitTextStroke` / `WebkitTextFillColor`
+- Tailwind classes won't work for stroke text
+```tsx
+<h1 style={{
+  WebkitTextStroke: '1px var(--text-1)',
+  WebkitTextFillColor: 'transparent',
+}}>Headline</h1>
+```
 
-### 9. Ship quality checks
+### Glow Hover
+- MUST be a **React component** (CSS text-shadow hover classes won't apply)
+- Use Framer Motion or a custom component
 
-- [PageSpeed Insights](https://pagespeed.web.dev/)
-- [Can I Use](https://caniuse.com/) for experimental CSS
-- [Responsively](https://responsively.app/) multi-device
-- [RealFaviconGenerator](https://realfavicongenerator.net/)
-- Deploy: [Vercel](https://vercel.com/)
-- **Done when:** LCP reasonable, contrast OK, mobile nav works, favicon set
+### Section Eyebrow Pattern
+Every section gets an uppercase mono label above the headline:
+```tsx
+<p className="font-mono text-xs tracking-widest text-[var(--text-3)] uppercase mb-2">
+  {label}
+</p>
+<h2 className="text-4xl font-bold">{headline}</h2>
+```
 
-## Practice Drills (skill growth)
+### Phone Video Frame
+When showing mobile video, frame it in a phone mockup:
+```tsx
+<div className="relative mx-auto w-[280px]">
+  <div className="rounded-[3rem] border-4 border-[var(--surface-border)] overflow-hidden">
+    <video ... />
+  </div>
+</div>
+```
 
-When user wants to train UI skill (not ship a product):
-
-1. [Frontend Mentor](https://www.frontendmentor.io/) — build from real briefs
-2. [The Odin Project](https://www.theodinproject.com/) / [Full Stack Open](https://fullstackopen.com/)
-3. [roadmap.sh](https://roadmap.sh/) frontend roadmap
-4. Rebuild one Awwwards section weekly (structure only; original assets)
+### Video — iOS Autoplay
+All four attributes required or iOS Safari won't autoplay:
+```tsx
+<video autoPlay muted playsInline loop>
+```
+Also: WebM doesn't play in Chrome on iOS. Always convert to MP4 (H.264).
 
 ## Anti-AI-Slop Checklist (must pass)
 
-- [ ] Not Inter-only / system-font-only
+### Layout
+- [ ] Not all sections same centered-card layout
+- [ ] Not endless left-text/right-image clones
+- [ ] Background modes vary (not all solid-surface)
+- [ ] Hero is NOT the default text-left/image-right
+- [ ] Section rhythm varies (some big, some mini)
+
+### Visual
 - [ ] No purple-blue mesh default
-- [ ] No identical 3-card feature row as the only layout
-- [ ] Real photos or directed illustrations, not blobs
-- [ ] Tokens used; no random hex soup
-- [ ] Motion restrained and purposeful
+- [ ] No floating meaningless blobs
+- [ ] No glassmorphism without reason
+- [ ] Real photos or illustrations, not AI blobs
+- [ ] No gradient text as "premium" shortcut
+- [ ] No neon edges / glow halos
+
+### Typography
+- [ ] Not Inter-only / system-font-only
+- [ ] No gradient headlines
+- [ ] No 6-line startup headings
+- [ ] Font scale has real contrast (display ≠ body)
+
+### Content
 - [ ] Copy is specific, not startup-cliché
-- [ ] Empty + loading + hover states present
+- [ ] Words banned: unleash, elevate, revolutionize, next-gen, seamless, powerful solution, transformative platform
+- [ ] No fake brands (Acme, Nexus, Flowbit, NovaCore)
+- [ ] No emojis in body copy
+- [ ] No exclamation marks
 
-## Related skills
+### Density
+- [ ] Not over-packed — page breathes
+- [ ] No card overload in every block
+- [ ] Even spacing between sections
+- [ ] No carousel / marquee logo strips with 6 blobs
+- [ ] No fake KPI columns unless explicitly asked
 
-- `frontend-design` — production UI implementation patterns (Next/Tailwind/DeFi dashboard)
+### States
+- [ ] Empty + loading + hover states present on interactive elements
+
+## Technical Gotchas
+
+### OG Image (next/og / Satori)
+- No gradients — use solid color fill
+- No border-radius — Satori doesn't support it
+- Must pass fonts array to `ImageResponse` options or text falls back to generic sans
+- Store font files in `public/fonts/`
+
+### Resend (email)
+- Lazy init the Resend client **inside** the API route handler
+- Never initialize at module scope (breaks serverless cold start)
+
+### Git
+- Strip AI co-author trailers from commit messages before pushing
+- Common trailers to remove: `Co-authored-by:`, `Generated by`, `Built with`
+
+### Images
+- No overlays on images (editorial rule) — let images breathe
+- next/image with real Unsplash/Pexels URLs
+- Compress before ship: [Squoosh](https://squoosh.app/), [TinyPNG](https://tinypng.com/)
+
+### Icons
+- Lucide default: https://lucide.dev/
+- Phosphor for multi-weight: https://phosphoricons.com/
+- Simple Icons for brands: https://simpleicons.org/
+- Logo pattern: `[icon] BrandName` — never wordmark-only
+
+## Reference Sites (study before starting)
+
+Linear, Stripe, Vercel, Cursor, Resend, Mercury, Pitch, Raycast
+Inspo: dark.design, heroinspo.com, Mobbin, Awwwards
+
+## Quick Workflow
+
+### 1. Lock aesthetic
+One sentence: tone + audience + memorable trait. Pick extreme intentionally.
+*"Dark editorial DeFi landing, emerald accent, cinematic hero, industrial body type."*
+
+### 2. Bootstrap
+Paste the bootstrap prompt from the top of this skill.
+
+### 3. Build sections (in order)
+1. **Hero** — Giant Statement or Mid Editorial or Mini Minimalist
+2. **Trust bar** — logo strip (if needed) or proof sentence
+3. **Features** — vary layout (bento / staggered / editorial split)
+4. **Showcase / product** — full-bleed or editorial side-image
+5. **Testimonials / proof** — quote wall or metrics strip
+6. **Pricing / CTA** — clean decisive close
+
+### 4. Enforce system
+- Color slots everywhere, no random hex
+- Button law applied
+- Stroke text uses inline style
+- Section eyebrow pattern on every section
+- No pure black/white, no overlays, no emojis, no exclamation marks
+
+### 5. Ship checks
+- [ ] Anti-AI-slop checklist passed
+- [ ] OG image built (solid color, no gradients)
+- [ ] iOS video autoplay attributes correct
+- [ ] Email handler uses lazy init
+- [ ] Git trailers stripped
+- [ ] PageSpeed + mobile check → Vercel
+
+## Full Resource Catalog
+
+See `references/resource-catalog.md` for the complete free tool stack (fonts, colors, icons, stock assets, motion, illustrations, writing tools).
+
+## Related Skills
+
+- `frontend-design` — production UI implementation patterns (Next/Tailwind/DeFi)
 - `imagegen-frontend-web` — per-section design reference images
 - `humanizer` — strip AI-isms from copy
-
-## Common Pitfalls
-
-1. **Treating UIVerse/shadcn as final look** — structure/inspiration only; restyle to brand.
-2. **Skipping contrast check** — pretty ≠ professional if text fails AA.
-3. **Too many icon sets** — one family per product.
-4. **DaFont / free novelty fonts** — many are personal-use only; prefer Fontshare/Google commercial-safe.
-5. **Flaticon free tier** — attribution required; use Lucide/MIT for product UI.
-6. **Animating everything** — one load sequence + scroll reveals beat 20 micro-motions.
-7. **Functional skeleton first** — this user wants designed panels on first pass.
-
-## Verification Checklist
-
-- [ ] Aesthetic one-liner locked
-- [ ] Fonts: display + body named and loaded
-- [ ] CSS tokens present and used
-- [ ] Icon family chosen
-- [ ] Real image sources linked
-- [ ] Motion easing set
-- [ ] Copy humanized
-- [ ] Anti-AI-slop checklist passed
-
-## One-Shot: New landing page
-
-1. Lock aesthetic one-liner
-2. Fontshare pair + Coolors palette → tokens
-3. Source Unsplash hero + Lucide icons
-4. Build Hero → Features → Showcase → CTA with scroll reveals
-5. Hemingway pass on all copy
-6. PageSpeed + mobile check → Vercel
-
-## One-Shot: Dashboard panel
-
-1. Dark surface tokens + brand accent
-2. Header title + subtitle + status badge
-3. Card grid with border `var(--border)`, radius 10px
-4. Hover lift / focus ring on controls
-5. Loading spinner + intentional empty state
-6. Wire API only after UI stands alone
