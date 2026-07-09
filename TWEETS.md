@@ -2,8 +2,7 @@
 
 Tone: builder talking to vibe-coders. Problem → fix → install. No corporate fluff.
 
-Replace `REPO_URL` with the live GitHub link after push  
-(expected: `https://github.com/norbert351/ui-design-kit`)
+Repo: https://github.com/norbert351/ui-design-kit
 
 ---
 
@@ -29,7 +28,7 @@ Not vibes. A checklist.
 
 Drop it into Hermes / Claude Code / Cursor skills and stop redesigning from zero every session.
 
-REPO_URL
+https://github.com/norbert351/ui-design-kit
 
 Built for people who ship with AI but still want product that looks intentional.
 
@@ -52,7 +51,7 @@ I open-sourced a **UI Design Kit skill** for agents:
 
 Install once. Load when designing. Ship non-slop UI.
 
-REPO_URL
+https://github.com/norbert351/ui-design-kit
 
 ---
 
@@ -100,7 +99,7 @@ Works with Hermes Agent out of the box.
 
 Also works if you paste it into Claude Code / Cursor / AGENTS.md.
 
-REPO_URL
+https://github.com/norbert351/ui-design-kit
 
 **6/**
 If you're vibe-coding a landing or dashboard this week:
@@ -124,10 +123,10 @@ Load it when you design landings/dashboards.
 
 It pulls Fontshare, Coolors, Lucide, Unsplash, Animista, Hemingway — and a hard anti-AI checklist.
 
-REPO_URL
+https://github.com/norbert351/ui-design-kit
 
 ```bash
-hermes skills install REPO_URL_RAW_SKILL
+hermes skills install https://github.com/norbert351/ui-design-kit/raw/main/SKILL.md
 ```
 
 Stop asking the model to "make it pretty."
@@ -147,7 +146,7 @@ AI: fonts locked, tokens set, real photos, scroll reveals, actual empty states
 
 Me: ok now we cooking
 
-REPO_URL
+https://github.com/norbert351/ui-design-kit
 
 ---
 
@@ -166,7 +165,7 @@ Free stack I use so vibe-coded UI doesn't look AI:
 
 I turned it into an agent skill so you don't have to remember this list.
 
-REPO_URL
+https://github.com/norbert351/ui-design-kit
 
 ---
 
@@ -181,7 +180,7 @@ D) Fake blob illustrations
 E) Cringe marketing copy  
 
 I shipped a free agent skill that bans all of them by default ↓  
-REPO_URL
+https://github.com/norbert351/ui-design-kit
 
 ---
 
